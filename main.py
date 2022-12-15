@@ -4,13 +4,19 @@ import numpy as np
 
 from generating.text_generation import TextGenerator
 from generating.image_generation import ImageGenerator
+from generating.text_generation import make_prompt_data_for_gpt
 
 def generate_text_and_image(interests: str, gender: str, age: str, occasion: str):
     img_gen = ImageGenerator()
     text_gen = TextGenerator()
 
     output_text = text_gen.generate_text(interests, gender, age, occasion)
-    output_image = img_gen.generate_image(output_text, occasion)
+    gift_ideas = [idea for idea in output_text.split("123456789.") if idea]
+
+    prompt_data = make_prompt_data_for_gpt(
+            interests, gender, int(age), occasion)
+
+    output_image = img_gen.generate_image(gift_ideas[0], prompt_data)
 
     if text_gen.is_done and img_gen.is_done:
         return output_text, output_image

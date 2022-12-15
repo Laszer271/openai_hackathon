@@ -1,5 +1,8 @@
 from typing import Union
 from PIL import Image
+import io
+import requests
+import openai
 
 AGE_THRESHOLD = 15
 
@@ -15,9 +18,12 @@ def handle_occasion(text: str, occasion: str):
     return text + f' as {prefix} {occasion} gift'
 
 
-def make_prompt_for_dalle(text: str, occasion: str):
-    prompt = generate_summarization_for_prompt(text)
-    prompt = handle_occasion(prompt, occasion)
+def make_prompt_for_dalle(text: str, prompt_data):
+    #prompt = generate_summarization_for_prompt(text)
+    #prompt = handle_occasion(prompt, occasion)
+
+    prompt = f"{prompt_data.age} {prompt_data.gender} using a {text}, watercolor painting"
+
     return prompt
 
 
@@ -25,15 +31,25 @@ def generate_image_with_model(prompt):
     # here a GPT model should be called
     placeholder = Image.open('other/christmass_tree.jpeg')
 
-    return placeholder
+    response = openai.Image.create(
+    prompt=prompt,
+    n=1,
+    size="256x256"
+    )
+    image_url = response['data'][0]['url']
+
+    response = requests.get(image_url)
+    img = Image.open(io.BytesIO(response.content))
+
+    return img
 
 
 class ImageGenerator:
     def __init__(self):
         self.is_done = False
 
-    def generate_image(self, text: str, occasion: str):
-        prompt = make_prompt_for_dalle(text, occasion)
+    def generate_image(self, text: str, prompt_data):
+        prompt = make_prompt_for_dalle(text, prompt_data)
         model_output = generate_image_with_model(prompt)
 
         self.is_done = True
