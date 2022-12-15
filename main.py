@@ -63,6 +63,9 @@ if __name__ == '__main__':
         interests = sel_col.text_input(
             'Describe the person interests', placeholder='swimming, car racing', max_chars=2000)
 
+        if 'is_generated' not in st.session_state:
+            st.session_state.is_generated = False
+        
         should_generate = sel_col.button('Generate')
 
         should_update = disp_col.button('Need another idea?')
@@ -71,18 +74,21 @@ if __name__ == '__main__':
             st.session_state.count = 0
 
         if should_generate:
+            st.session_state.is_generated = True
             st.session_state.ideas, output_image = generate_text_and_image(interests, gender, age, occasion)
             disp_col.write(f'What about... {st.session_state.ideas[0].upper()}?')
             disp_col.image(output_image)
         
         if should_update:
-            st.session_state.count += 1
-
-            if st.session_state.count < 1:
-                output_image = update_image(interests, gender, age, occasion, st.session_state.ideas, st.session_state.count)
-                disp_col.write(f'What about... {st.session_state.ideas[st.session_state.count].upper()}?')
-                disp_col.image(output_image)
-            else: 
-                output_image = update_image(interests, gender, age, occasion, 'sad face', st.session_state.count)
-                disp_col.write(f'I have run out of ideas :(')
-                disp_col.image(output_image)
+            if st.session_state.is_generated:
+                st.session_state.count += 1
+                if st.session_state.count < 3:
+                    output_image = update_image(interests, gender, age, occasion, st.session_state.ideas, st.session_state.count)
+                    disp_col.write(f'What about... {st.session_state.ideas[st.session_state.count].upper()}?')
+                    disp_col.image(output_image)
+                else: 
+                    output_image = update_image(interests, gender, age, occasion, 'sad face', st.session_state.count)
+                    disp_col.write(f'I have run out of ideas :(')
+                    disp_col.image(output_image)
+            else:
+                disp_col.write(f'Consider generating some ideas first :)')
