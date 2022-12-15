@@ -1,18 +1,25 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import re
 
 from generating.text_generation import TextGenerator
 from generating.image_generation import ImageGenerator
 from generating.text_generation import make_prompt_data_for_gpt
+
+def gift_idea_to_amazon(idea: str):
+    idea_to_url = idea.lower().strip().replace(" ", "+")
+    url = f"https://www.amazon.com/s?k={idea_to_url}"
+
+    return url
 
 def generate_text_and_image(interests: str, gender: str, age: str, occasion: str):
     img_gen = ImageGenerator()
     text_gen = TextGenerator()
 
     output_text = text_gen.generate_text(interests, gender, age, occasion)
-    gift_ideas = [idea for idea in output_text.split("123456789.") if idea]
-
+    gift_ideas = [idea for idea in re.split('[0-9]|\.', output_text.replace("\n", "")) if idea]
+    
     prompt_data = make_prompt_data_for_gpt(
             interests, gender, int(age), occasion)
 

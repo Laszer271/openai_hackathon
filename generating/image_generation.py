@@ -22,7 +22,7 @@ def make_prompt_for_dalle(text: str, prompt_data):
     #prompt = generate_summarization_for_prompt(text)
     #prompt = handle_occasion(prompt, occasion)
 
-    prompt = f"{prompt_data.age} {prompt_data.gender} using a {text}, watercolor painting"
+    prompt = f"an abstract watercolor painting of {prompt_data.age} year old {prompt_data.gender} with a {text}"
 
     return prompt
 

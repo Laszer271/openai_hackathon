@@ -70,7 +70,8 @@ def generate_text_with_model(prompt_data):
         model="text-davinci-003", prompt=f"""Please give me a list of ten ideas \
             for gifts for a {prompt_data.age} year old {prompt_data.gender} \
             who is interested in such areas: {prompt_data.interests}. \
-            Please be concrete, dont use full sentences""", max_tokens=256, temperature=0.5).choices[0].text
+            Please be concrete, dont use full sentences. Use a maximum of \
+            4 words per idea. Prioritize physical gifts.""", max_tokens=256, temperature=0.5).choices[0].text
     # beg = response.rindex("(")
     # end = response.rindex(")")
     return response
