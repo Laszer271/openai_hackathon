@@ -106,7 +106,7 @@ if __name__ == '__main__':
             st.session_state.count = 0
             st.session_state.is_generated = True
             st.session_state.ideas, output_image = generate_text_and_image(interests, gender, age)
-            st.session_state.images.append(output_image)
+            st.session_state.images =[output_image]
             populate_column(img_col, disp_col, output_image, 0)
             print('=' * 50)
             print(type(output_image))
