@@ -76,7 +76,7 @@ def img_to_html(img):
 
 if __name__ == '__main__':
     # st.set_page_config(layout="wide")
-    N_IDEAS_TO_SHOW = 3
+    N_IDEAS_TO_SHOW = 10
     model_gui = st.container()
 
     with model_gui:
