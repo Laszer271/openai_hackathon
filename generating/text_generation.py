@@ -47,21 +47,19 @@ def handle_gender(gender: str, age: int):
         return 'Boy'
 
 
-def handle_occasion(text: str, occasion: str):
-    return text + f' on {occasion}'
+# def handle_occasion(text: str, occasion: str):
+#     return text + f' on {occasion}'
 
 
-def make_prompt_data_for_gpt(interests: str, gender: str, age: int, occasion: str):
+def make_prompt_data_for_gpt(interests: str, gender: str, age: int):
     class prompt_data:
         interests: str
         gender: str
         age: int
-        occasion: str
     #prompt_data.interests = generate_summarization_for_prompt(interests)
     prompt_data.interests = interests
     prompt_data.gender = handle_gender(gender, age)
     prompt_data.age = age
-    prompt_data.occasion = occasion
     return prompt_data
 
 
@@ -81,10 +79,10 @@ class TextGenerator:
     def __init__(self):
         self.is_done = False
 
-    def generate_text(self, interests: str, gender: str, age: Union[str, int], occasion: str):
+    def generate_text(self, interests: str, gender: str, age: Union[str, int]):
         age = int(age)
         prompt_data = make_prompt_data_for_gpt(
-            interests, gender, age, occasion)
+            interests, gender, age)
         model_output = generate_text_with_model(prompt_data)
         self.is_done = True
         return model_output

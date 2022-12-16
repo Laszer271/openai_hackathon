@@ -13,9 +13,9 @@ def generate_summarization_for_prompt(text: str):
     return text
 
 
-def handle_occasion(text: str, occasion: str):
-    prefix = 'a' if occasion.lower()[0] in ['a', 'e', 'i', 'o', 'u'] else 'an'
-    return text + f' as {prefix} {occasion} gift'
+# def handle_occasion(text: str, occasion: str):
+#     prefix = 'a' if occasion.lower()[0] in ['a', 'e', 'i', 'o', 'u'] else 'an'
+#     return text + f' as {prefix} {occasion} gift'
 
 
 def make_prompt_for_dalle(text: str, prompt_data):
