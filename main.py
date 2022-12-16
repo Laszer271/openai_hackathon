@@ -52,8 +52,11 @@ def populate_column(img_col, content_col, output_image, cnt):
     # img_col.markdown("<p style = 'text-align: center;'>" + str(img_to_html(output_image))[2:] + "</p> ", unsafe_allow_html=True)
     output_image = output_image.resize((1024, 1024))
     img_col.image(output_image)
-    content_col.write(f'Idea {st.session_state.count + 1} / {N_IDEAS_TO_SHOW}')
-    content_col.write(f'What about... {st.session_state.ideas[cnt].upper()}?')
+    if cnt < N_IDEAS_TO_SHOW:
+        content_col.write(f'Idea {st.session_state.count + 1} / {N_IDEAS_TO_SHOW}')
+        content_col.write(f'What about... {st.session_state.ideas[cnt].upper()}?')
+    else: 
+        disp_col.write(f'I have run out of ideas :(')
 
 def image_to_b64(img):
     ret = BytesIO()
@@ -134,7 +137,8 @@ if __name__ == '__main__':
                     populate_column(img_col, disp_col, output_image, st.session_state.count)
                 else: 
                     output_image = update_image(interests, gender, age, 'sad face', st.session_state.count)
-                    img_col.image(output_image)
-                    disp_col.write(f'I have run out of ideas :(')
+                    populate_column(img_col, disp_col, output_image, st.session_state.count)
             else:
                 disp_col.write(f'Consider generating some ideas first :)')
+            st.session_state.count = min(st.session_state.count, N_IDEAS_TO_SHOW)
+                    
