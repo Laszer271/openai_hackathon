@@ -1,23 +1,24 @@
 import openai as ai
+import streamlit as st
 from typing import Union
 
 AGE_THRESHOLD = 15
 
 
-def get_api_from_a_file(filename):
-    try:
-        with open(filename, 'r') as f:
-            # It's assumed our file contains a single line,
-            # with our API key
+# def get_api_from_a_file(filename):
+#     try:
+#         with open(filename, 'r') as f:
+#             # It's assumed our file contains a single line,
+#             # with our API key
 
-            return f.read().strip()
-    except FileNotFoundError:
-        print("'%s' file not found" % filename)
-        return ''
+#             return f.read().strip()
+#     except FileNotFoundError:
+#         print("'%s' file not found" % filename)
+#         return ''
 
 
 # you have to create apiKey.txt in 'other' folder
-ai.api_key = get_api_from_a_file('./other/apiKey.txt')
+ai.api_key = st.secrets["api_key"]
 
 
 def generate_summarization_for_prompt(interests: str):
