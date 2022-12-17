@@ -1,6 +1,7 @@
 # openai_hackathon
 
 Application to be deployed using streamlit service. 
+Link to hosted application: https://laszer271-openai-hackathon-main-ykvz3g.streamlit.app/
 
 For successfull deployment providing an OpenAI's API key is needed
 
